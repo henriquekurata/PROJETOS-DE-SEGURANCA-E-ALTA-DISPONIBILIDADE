@@ -11,8 +11,7 @@ Hadoop.
 * Editar variáveis de ambiente .Bashrc;
 * Criar chaves SSH para conexão entre máquinas do cluster Hadoop sem senha;
 * Configurar os arquivos do Hadoop;
-* Inicializar o cluster de alta disponibilidade;
-* Testar cenários de failover e inserir dados para verificação da alta disponibilidade.
+* Inicializar o cluster de alta disponibilidade.
 
 ## Comandos: 
 
