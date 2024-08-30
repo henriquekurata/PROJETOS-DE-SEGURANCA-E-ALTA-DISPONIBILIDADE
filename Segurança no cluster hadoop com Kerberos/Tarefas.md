@@ -17,15 +17,23 @@ Hadoop e Kerberos.
 
 ### Instalar o Kerberos:
 
-#Fazer o download do Kerberos (KDC) direto da documentação: krb5-1.17.tar.gz
+#Fazer o download do Kerberos (KDC) direto da documentação: 
 
-#Descompactar: tar -xvf krb5-1.17.tar.gz   
+krb5-1.17.tar.gz
 
-#Mover: sudo mv krb5-1.17.tar.gz /opt/kerberos
+#Descompactar: 
+
+tar -xvf krb5-1.17.tar.gz   
+
+#Mover: 
+
+sudo mv krb5-1.17.tar.gz /opt/kerberos
 
 cd /opt/kerberos/src
 
-#Instalar: ./configure
+#Instalar: 
+
+./configure
 
 #Compilando:
 
@@ -39,7 +47,7 @@ make install
 
 cd ~
 
-yum intall krb5-libs krb5-server krb5-workstation
+yum install krb5-libs krb5-server krb5-workstation
 
 #Editar arquivos de configuações do Kerberos:
 
@@ -153,9 +161,9 @@ sudo kadmin (Acessar o principal ativado com o comando kinit)
 
 ### Criando os service principals:
 
-Conectar no kadmin e criar os service principals abaixo com o 
-
+Conectar no kadmin e criar os service principals abaixo com o
 comando addprinc -randkey
+
 ```
 #Servico Web
 HTTP/dn1.dsa.com@DSA.COM
@@ -206,9 +214,7 @@ ls -la .*keytab
 Alterar permissão: chmod 400 *.keytab 
 
 ### Ativando o service principal:
-kinit -kt /opt/hadoop/etc/hadoop/nn.service.keytab nn/nn1.dsa.
-
-com
+kinit -kt /opt/hadoop/etc/hadoop/nn.service.keytab nn/nn1.dsa.com
 
 klist (Verificar o service principal ativo)
 
