@@ -14,7 +14,7 @@ Hadoop.
 * Inicializar o cluster de alta disponibilidade;
 * Testar cenários de failover e inserir dados para verificação da alta disponibilidade.
 
-## Comandos:
+## Comandos: 
 
 ### Criar VM com Red Hat
 
