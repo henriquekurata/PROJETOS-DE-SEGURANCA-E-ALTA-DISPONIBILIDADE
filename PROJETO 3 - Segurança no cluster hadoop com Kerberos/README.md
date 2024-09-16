@@ -1,8 +1,20 @@
 # ***Configuração de Kerberos no cluster Hadoop***
 
-## Ferramentas: 
+## Descrição:
+Neste projeto, foi implementada a configuração de segurança avançada para um cluster Hadoop utilizando o protocolo Kerberos. O objetivo principal era garantir a autenticação segura de usuários e serviços dentro do cluster, proporcionando uma camada adicional de proteção de dados tanto em trânsito quanto em repouso. A solução incluiu a instalação do Kerberos, a criação de service principals, keytabs, e a adaptação das configurações do Hadoop para operar em um modo seguro com alta disponibilidade.
 
-Hadoop e Kerberos.
+## Principais Funcionalidades:
+1. Configuração do protocolo Kerberos para autenticação segura de serviços no Hadoop.
+2. Criação de service principals e keytab files para autenticação.
+3. Configuração dos arquivos `core-site.xml`, `hdfs-site.xml` e `yarn-site.xml` para habilitar segurança.
+4. Implementação do ambiente em modo de alta disponibilidade (HA).
+5. Integração do JSVC para aumentar a segurança do cluster.
+6. Inicialização do JournalNode, NameNode e DataNode em modo seguro.
+7. Auditoria e monitoramento do acesso aos dados no cluster.
+
+## Ferramentas Utilizadas:
+- **Hadoop**
+- **Kerberos**
 
 ## Passos:
 * Instalar o Kerberos e editar os seus arquivos de configurações;
@@ -17,9 +29,10 @@ Hadoop e Kerberos.
 
 ### Instalar o Kerberos:
 
-#Fazer o download do Kerberos (KDC) direto da documentação: 
-
-krb5-1.17.tar.gz
+1. Fazer o download do Kerberos (KDC):
+    ```bash
+    krb5-1.17.tar.gz
+    ```
 
 #Descompactar: 
 
