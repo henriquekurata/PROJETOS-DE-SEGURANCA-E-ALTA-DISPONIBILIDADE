@@ -1,6 +1,6 @@
-# ***Configuração de Kerberos no cluster Hadoop***
+# 🚀 ***Configuração de Kerberos no cluster Hadoop***
 
-## Descrição:
+## 📖 **Descrição do Projeto:**
 Neste projeto, foi implementada a configuração de segurança avançada para um cluster Hadoop utilizando o protocolo Kerberos. O objetivo principal era garantir a autenticação segura de usuários e serviços dentro do cluster, proporcionando uma camada adicional de proteção de dados tanto em trânsito quanto em repouso. A solução incluiu a instalação do Kerberos, a criação de service principals, keytabs, e a adaptação das configurações do Hadoop para operar em um modo seguro com alta disponibilidade.
 
 ## Principais Funcionalidades:
@@ -12,11 +12,12 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
 6. Inicialização do JournalNode, NameNode e DataNode em modo seguro.
 7. Auditoria e monitoramento do acesso aos dados no cluster.
 
-## Ferramentas Utilizadas:
-- **Hadoop**
-- **Kerberos**
+## 🛠️ Ferramentas Utilizadas:
+- **Hadoop**: Plataforma de armazenamento distribuído e processamento de grandes volumes de dados.
+- **Kerberos**: Protocolo de autenticação para garantir segurança e controle de acesso no cluster.
 
-## Passos:
+
+## 📋 **Descrição do Processo**
 * Instalar o Kerberos e editar os seus arquivos de configurações;
 * Criar o user principal;
 * Iniciar o Kerberos, criar os service principals e Keytab files;
@@ -25,7 +26,7 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
 * Inicializar o cluster em modo seguro;
 * Criar diretório no cluster para acesso do user principal.
 
-## Comandos:
+## 💻 **Comandos:** 
 
 ### Instalar o Kerberos:
 
@@ -34,38 +35,47 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
     krb5-1.17.tar.gz
     ```
 
-#Descompactar: 
+2. Descompactar:
+    ```bash
+    tar -xvf krb5-1.17.tar.gz   
+    ```
 
-tar -xvf krb5-1.17.tar.gz   
 
-#Mover: 
+3. Mover:
+    ```bash
+    sudo mv krb5-1.17.tar.gz /opt/kerberos
+    cd /opt/kerberos/src
+    ```
 
-sudo mv krb5-1.17.tar.gz /opt/kerberos
+4. Instalar:
+    ```bash
+    ./configure
+    ```
 
-cd /opt/kerberos/src
+5. Compilar:
+    ```bash
+    su  # Executar como root
+    make
+    make install
+    ```
 
-#Instalar: 
+# Configurando:
 
-./configure
+6. Instalar pacotes:
+    ```bash
+    yum install krb5-libs krb5-server krb5-workstation
+    ```
 
-#Compilando:
+---
 
-su (Fazer com o root)
+### Editar os arquivos de configuração do Kerberos
 
-make
+1. Editar o arquivo `krb5.conf`:
+    ```bash
+    gedit /etc/krb5.conf
+    ```
+    ```ini
 
-make install
-
-#Configurando:
-
-cd ~
-
-yum install krb5-libs krb5-server krb5-workstation
-
-#Editar arquivos de configuações do Kerberos:
-
-gedit /etc/krb5.conf
-```
 [logging]
      default = FILE:/var/log/krb5libs.log
      kdc = FILE:/var/log/krb5kdc.log
@@ -90,12 +100,13 @@ gedit /etc/krb5.conf
      dsa.com = DSA.COM
 ```
 
-#KDC (kdc.conf)
+2. Editar o arquivo `kdc.conf`:
+    ```bash
+    cd /var/kerberos/krb5kdc
+    gedit kdc.conf
+    ```
+    ```ini
 
-cd /var/kerberos/krb5kdc
-
-gedit kdc.conf
-```
 [kdcdefaults]
      kdc_ports = 88
      kdc_tcp_ports = 88
@@ -113,22 +124,23 @@ gedit kdc.conf
 
 ```
 
-#ACL
 
-cd /var/kerberos/krb5kdc
+3. Editar o arquivo `kadm5.acl`:
+    ```bash
+    cd /var/kerberos/krb5kdc
+    gedit kadm5.acl
+    ```
+    ```ini
+    */admin@DSA.COM *
+    ```
 
-gedit kadm5.acl
-```
-*/admin@DSA.COM *
-```
-
-#Banco de dados do KDC
-
-cd ~
-
-su
-
-kdb5_util create -s
+    
+4. Criar banco de dados do KDC:
+    ```bash
+    cd ~
+    su
+    kdb5_util create -s
+    ```
 
 Escolha uma senha para criar o banco de dados
 
@@ -137,11 +149,11 @@ cd *usr/local/var/krb5kdc
 vi principal
 
 
-#Criando o principal (Usuário para priviégios de acesso)
-
-su
-
-kadmin.local -q "addprinc aluno/admin"
+5. Criar o principal (Usuário para privilégios de acesso):
+    ```bash
+    su
+    kadmin.local -q "addprinc aluno/admin"
+    ```
 
 OBS:
 Para os serviços de inicialização funcionarem é impotante copiar o banco de dados (principal) para a pasta do krb5kdc (cd /var/kerberos/krb5kdc):
@@ -150,21 +162,22 @@ cp /usr/local/var/krb5kdc/* . (Copiando tudo da pasta)
 
 cp /usr/local/var/krb5kdc/* .K5.DSA>COM . (Copiando o arquivo oculto)
 
-#Inicializando os 2 seviços Kerberos
+6. Inicializar serviços:
+    ```bash
+    service krb5kdc start
+    service kadmin start
+    ```
 
-service krb5kdc start
+7. Verificar o status:
+    ```bash
+    sudo systemctl status krb5kdc
+    ```
 
-service kadmin start
-
-#Verificar o status
-
-sudo systemctl status krb5kdc
-
-#Comandos para deixar a ativação da função automática, mesmo após reiniciar a máquina:
-
-chkconfig kadmin on 
-
-chkconfig krb5kdc on
+8. Definir inicialização automática dos serviços:
+    ```bash
+    chkconfig kadmin on 
+    chkconfig krb5kdc on
+    ```
 
 #Acessando
 
@@ -172,11 +185,16 @@ sudo kadmin (Acessar o principal ativado com o comando kinit)
 
 #Estabelecendo segurança no acesso aos dados
 
+--- 
+
 ### Criando os service principals:
 
-Conectar no kadmin e criar os service principals abaixo com o
+1. Conectar ao `kadmin` e criar os service principals:
 comando addprinc -randkey
 
+    ```bash
+    kadmin.local -q "addprinc -randkey HTTP/dn1.dsa.com@DSA.COM"
+    ```
 ```
 #Servico Web
 HTTP/dn1.dsa.com@DSA.COM
@@ -197,13 +215,18 @@ yarn/nn1.dsa.com@DSA.COM
 yarn/nn2.dsa.com@DSA.COM
 ```
 
-### Comando para verificar os principals do cluster:
+2. Listar service principals:
+    ```bash
+    kadmin.local -q "listprincs"
+    ```
 
-listprincs
+---
 
 ### Testar conexão
 
 kinit aluno/admin
+
+---
 
 ### Criar Keytab files (para autenticação dos service principals criandos no item anterior)
 
@@ -225,16 +248,18 @@ cd /opt/hadoop/etc/hadoop
 ls -la .*keytab
 
 Alterar permissão: chmod 400 *.keytab 
+---
 
 ### Ativando o service principal:
 kinit -kt /opt/hadoop/etc/hadoop/nn.service.keytab nn/nn1.dsa.com
 
 klist (Verificar o service principal ativo)
 
+---
 
 ### Configurando o cluster Hadoop para Segurança
 
-#Core-site.xml:
+1. Configurar o arquivo `core-site.xml`:
 ```
  <property>
   <name>hadoop.security.authentication</name>
@@ -262,7 +287,7 @@ klist (Verificar o service principal ativo)
 ```
 
 
-#yarn-site.xml
+2. Configurar o arquivo `yarn-site.xml`:
 ```
 <property>
   <name>yarn.resourcemanager.principal</name>
@@ -290,7 +315,7 @@ klist (Verificar o service principal ativo)
 </property>
 ```
 
-#hdfs-site.xml:
+3. Configurar o arquivo `hdfs-site.xml`:
 ```
 <property>
   <name>dfs.namenode.kerberos.principal</name>
@@ -373,6 +398,7 @@ klist (Verificar o service principal ativo)
 </property>  
 
 ```
+---
 
 ### Copiar os arquivos do nn1 para nn2 e dn1
 
@@ -384,11 +410,15 @@ scp core-site.xml hdfs-site.xml yarn-site.xml aluno@nn2.dsa.com:/opt/hadoop/etc/
 
 scp core-site.xml hdfs-site.xml yarn-site.xml aluno@dn1.dsa.com:/opt/hadoop/etc/hadoop
 
+---
+
 ### Camada de autenticação e segurança simples (SASL) e JSVC
 
 #O JSVC vai iniciar o serviço do Datanode como Root, mas vai reduzir ao usuário que estará apontado no arquivo de configurações do Hadoop(Tudo isso para aumentar a segurança dos dados gravados), portanto JSVC é quem vai garantir o acesso a JVM
 
 Comando para instalar o JSVC: sudo yum instlall jsvc
+
+---
 
 ### Alterar o arquivo de configuração hadoop-env.sh:
 
@@ -406,53 +436,53 @@ export HADOOP_SECURE_LOG=${HADOOP_LOG_DIR}
 
 export HDFS_DATANODE_SECURE_USER=aluno
 
-
+---
 
 ### Inicialização do Cluster HA com Kerberos
 
-#0- Antes de tudo é necessário a solicitação do ticket pelo comando kinit e a verificação com klist no nemanode 1.
+#### 0- Antes de tudo é necessário a solicitação do ticket pelo comando kinit e a verificação com klist no nemanode 1.
 Antes de executar o comando 1 também é importante limpar o diretório /opt/hadoop/logs,  /tmp, /home/hadoop/HA/data/jn (de todas as máquinas) e /opt/hadoop/etc/hadoop/home/hadoop/HA/data/namenode (no namenode ativo).
 
-#1- Inicialização do Journal Node nas 3 máquinas do cluster
+#### 1- Inicialização do Journal Node nas 3 máquinas do cluster
 hdfs --daemon start journalnode
 
-#2- Format do Namenode 1 (somente na primeira inicialização do cluster)
+#### 2- Format do Namenode 1 (somente na primeira inicialização do cluster)
 hdfs namenode -format
 
-#3- Verifica se o firewall está ativo
+#### 3- Verifica se o firewall está ativo
 sudo firewall-cmd --state
 
-#4- Inicialização do NameNode no NameNode Ativo
+#### 4- Inicialização do NameNode no NameNode Ativo
 hdfs --daemon start namenode
 
-#5- Copiar os metadados do NomeNode Ativo para o StandBy (apenas na primeira inicialização, executar no NameNode Standby)
+#### 5- Copiar os metadados do NomeNode Ativo para o StandBy (apenas na primeira inicialização, executar no NameNode Standby)
 hdfs namenode -bootstrapStandby
 
-#6- Inicialização do NameNode no NameNode Standby
+#### 6- Inicialização do NameNode no NameNode Standby
 hdfs --daemon start namenode
 
-#7- Inicialização do Zookeeper em todas as máquinas do cluster
+#### 7- Inicialização do Zookeeper em todas as máquinas do cluster
 zkServer.sh start
 
-#8- Inicialização do DataNode em modo seguro
+#### 8- Inicialização do DataNode em modo seguro
 sudo /opt/hadoop/bin/hdfs --daemon start datanode
 ps -ax | datanode (Verificar o status no modo seguro)
 
-#9- Formatar o HA State (apenas na primeira inicialização - nos dois namenodes)
+#### 9- Formatar o HA State (apenas na primeira inicialização - nos dois namenodes)
 hdfs zkfc -formatZK
 
-#10- Inicializa o Zookeeper HA Failover Controller (nos dois NameNodes)
+#### 10- Inicializa o Zookeeper HA Failover Controller (nos dois NameNodes)
 hdfs --daemon start zkfc
 
-#11 - Checar se os NameNodes estão configurados em HA
+#### 11 - Checar se os NameNodes estão configurados em HA
 hdfs haadmin -getServiceState nn1
 
 
-
+---
 
 ### Auditoria
 
-#Habilitando auditoria nos arquivos do hadoop (cd opt/hadoop/etc/hadoop)
+#### Habilitando auditoria nos arquivos do hadoop (cd opt/hadoop/etc/hadoop)
 
 hadoop-env.sh
 
@@ -463,6 +493,8 @@ export HADOOP_OPTS="-Djava.net.preferIPv4Stack=true -Dsun.security.krb5.debug=tr
 log4j.properties
 
 hadoop.security.logger=ERROR,NullAppender (Verificar erros no log)
+
+---
 
 ### Criando pasta e arquivo no hdfs:
 
@@ -475,3 +507,11 @@ vi teste.txt
 hdfs dfs -put teste.txt /user
 
 Obs: Se o acesso for feito sem o user principal (kinit), não será possível nem acessar o cluster, caso o Kerberos esteja ativo.
+
+---
+## Contato
+
+Se tiver dúvidas ou sugestões sobre o projeto, entre em contato comigo:
+
+- 💼 [LinkedIn](https://www.linkedin.com/in/henrique-k-32967a2b5/)
+- 🐱 [GitHub](https://github.com/henriquekurata?tab=overview&from=2024-09-01&to=2024-09-01)
