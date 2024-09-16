@@ -28,11 +28,11 @@ Este projeto configura um Data Lake utilizando HDFS (Hadoop Distributed File Sys
 ## 💻 **Comandos:** 
 
 ### Criar VM com Red Hat
-
+---
 ### Verificar lista usuários prioritários: 
 
 sudo vi /etc/sudoers >  adicionar o usuário "aluno" na lista junto com o root
-
+---
 ### Download JDK/Hadoop/ZOOKEEPER
 
 Fazer o Download JDK 8, descompactar e mover para a pasta: sudo mv jdk1.8 /opt/jdk
@@ -40,7 +40,7 @@ Fazer o Download JDK 8, descompactar e mover para a pasta: sudo mv jdk1.8 /opt/j
 Fazer o Download HADOOP, descompactar e mover para a pasta: sudo mv hadoop /opt/hadoop
 
 Fazer o Download Zookeeper, descompactar e mover para a pasta: sudo mv zookeeper /opt/zookeeper
-
+---
 ### Ir para a pasta home (~) e editar o arquivo .bash_profile com as variáveis de ambiente:
 ```
 #Java JDK 1.8
@@ -56,7 +56,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
 export ZOOKEEPER_HOME=opt/zookeeper
 export PATH=$PATH:$ZOOKEEPER_HOME/bin
 ```
-
+---
 ### Clone do namenode / Edição de configurações das VMs
 
 #### Criar clone do Namenode para o Secondary e o datanode
@@ -74,7 +74,7 @@ hostnamectl set-hostname dn1.dsa.com / nn2.dsa.com
 sudo vi /etc/hosts com o endereço e o hostname de cada máquina
 
 Testar com o comando "ping"
-
+---
 ### Variaveis para arquivo .bashrc
 
 #Incluir as linhas abaixo no arquivo ~/.bashrc em todos os nodes do cluster
@@ -90,7 +90,7 @@ export JAVA_HOME=/opt/jdk
 export ZOOKEEPER_HOME=/opt/zookeeper
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_HOME/bin
 ```
-
+---
 ### Configurandos as chaves ssh sem senha
 
 ssh-keygen -t rsa
@@ -118,7 +118,7 @@ ssh aluno@nn2.dsa.com
 
 ssh aluno@dn1.dsa.com
 
-
+---
 
 ### Configurando o namenode
 
@@ -201,7 +201,7 @@ Acesse /opt/hadoop/etc/hadoop
  <value>/home/hadoop/.ssh/id_rsa</value>
  </property>
 ```
-
+---
 ### Configurando o zookeeper
 
 Acesse: /opt/zookeeper/conf
@@ -217,7 +217,7 @@ Server.1=nn1.dsa.com:2888:3888
 Server.2=nn2.dsa.com:2888:3888
 Server.3=dn1.dsa.com:2888:3888
 ```
-
+---
 ### Criar diretórios
 
 #Criar a pasta /home/hadoop/HA/data/jn em todas as máquinas que foram configuradas o Jornalnode (nesse caso as 3 máquinas)
@@ -234,7 +234,7 @@ secondary namenode)
  <value>home/hadoop/HA/data/datanode</value>
  </property>
 ```
-
+---
 ### Configuração do arquivo workers
 
 #Arquivo Worker
@@ -246,7 +246,7 @@ Em todas as máquinas do cluster, editar o arquivo workers e adicionar a lista d
 2. Remover a opção de localhost 
 
 3. Incluir a lista de datanodes, um em cada linha (deve ser usado o mesmo nome configurado no arquivo /etc/hosts
-
+---
 ### Configuração do Zookeeper
 
 #Configuração da ordem no zookeeper
@@ -255,7 +255,7 @@ Crie o diretório /home/hadoop/HA/data/zookeeper
 Crie e edite o aquivo myid com a indentação da máquina dentro do cluster (Namenode = 1, secondary = 2 e datanode = 3)
 Deve ser feito para todas as máquinas
 
-
+---
 
 ### Inicialização do Cluster HA
 
@@ -318,3 +318,11 @@ hdfs haadmin -getServiceState nn1
 
 Acesse  o endereço ip para verificar o estado do cluster HDFS:
 Endereço IP da máquina:50070 no navegador web
+
+---
+## Contato
+
+Se tiver dúvidas ou sugestões sobre o projeto, entre em contato comigo:
+
+- 💼 [LinkedIn](https://www.linkedin.com/in/henrique-k-32967a2b5/)
+- 🐱 [GitHub](https://github.com/henriquekurata?tab=overview&from=2024-09-01&to=2024-09-01)
