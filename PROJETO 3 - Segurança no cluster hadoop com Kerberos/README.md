@@ -105,8 +105,8 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
     cd /var/kerberos/krb5kdc
     gedit kdc.conf
     ```
-    ```ini
 
+```
 [kdcdefaults]
      kdc_ports = 88
      kdc_tcp_ports = 88
@@ -126,17 +126,18 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
 
 
 3. Editar o arquivo `kadm5.acl`:
-    ```bash
+    ```
     cd /var/kerberos/krb5kdc
     gedit kadm5.acl
     ```
+
     ```ini
     */admin@DSA.COM *
     ```
 
     
 4. Criar banco de dados do KDC:
-    ```bash
+    ```
     cd ~
     su
     kdb5_util create -s
@@ -150,7 +151,7 @@ vi principal
 
 
 5. Criar o principal (Usuário para privilégios de acesso):
-    ```bash
+    ```
     su
     kadmin.local -q "addprinc aluno/admin"
     ```
@@ -163,18 +164,18 @@ cp /usr/local/var/krb5kdc/* . (Copiando tudo da pasta)
 cp /usr/local/var/krb5kdc/* .K5.DSA>COM . (Copiando o arquivo oculto)
 
 6. Inicializar serviços:
-    ```bash
+    ```
     service krb5kdc start
     service kadmin start
     ```
 
 7. Verificar o status:
-    ```bash
+    ```
     sudo systemctl status krb5kdc
     ```
 
 8. Definir inicialização automática dos serviços:
-    ```bash
+    ```
     chkconfig kadmin on 
     chkconfig krb5kdc on
     ```
