@@ -1,22 +1,34 @@
-# ***Alta disponibilidade entre dois bancos de dados Oracle: Streaming de dados transacionais com OGG***
+# 🚀 ***Alta Disponibilidade Entre Dois Bancos de Dados Oracle: Streaming de Dados Transacionais com OGG***
 
-## Ferramentas: 
 
-Banco Oracle e Oracle Golden Gate.
+## **Descrição do Projeto:**
+Este projeto implementa uma solução de alta disponibilidade entre dois bancos de dados Oracle usando o Oracle GoldenGate (OGG) para streaming de dados transacionais. O objetivo é garantir que os dados sejam replicados em tempo real entre os bancos de dados, proporcionando uma solução robusta para ambientes críticos que exigem alta disponibilidade e continuidade dos negócios.
 
-## Passos:
-* Criar VM com Red Hat Enterprise Linux;
-* Instalar o banco de dados Oracle (Oracle delivery) e fazer as configurações;
-* Instalar o Oracle Golden Gate e fazer as configurações;
-* Criar schemas da tabela nos dois bancos;
-* Configurar a comunicação entre os bancos de dados Oracle e rede;
-* Inserir e verificar a replicação dos dados.
+## Principais Funcionalidades:
+- **Configuração do Ambiente**: Criação de máquinas virtuais com Red Hat Enterprise Linux, instalação e configuração dos bancos de dados Oracle e do Oracle GoldenGate.
+- **Replicação de Dados**: Implementação da replicação de dados entre dois bancos de dados Oracle usando OGG para garantir a consistência e a disponibilidade dos dados em tempo real.
+- **Configuração de Rede e Comunicação**: Configuração das redes e comunicação entre os bancos de dados para permitir a replicação.
+- **Verificação e Monitoramento**: Inserção e verificação da replicação de dados para garantir que os dados estejam sendo corretamente replicados.
 
-## Comandos:
+
+## 🛠️ **Ferramentas Utilizadas**:
+- Banco Oracle
+- Oracle Golden Gate
+
+
+## 📋 **Descrição do Processo**
+1. Criar VM com Red Hat Enterprise Linux.
+2. Instalar o banco de dados Oracle (Oracle delivery) e realizar as configurações necessárias.
+3. Instalar o Oracle Golden Gate e configurar os parâmetros apropriados.
+4. Criar schemas de tabelas nos dois bancos de dados.
+5. Configurar a comunicação entre os bancos de dados Oracle e a rede.
+6. Inserir dados e verificar a replicação entre os bancos de dados.
+
+## 💻 **Comandos**
 
 ### Instalação do Banco Oracle 12c no Red Hat Enterprise Linux
 
-#Atualização do SO
+**Atualização do SO**
 
 Atualizar a lista de sudoers: 
 
@@ -26,11 +38,11 @@ Fazer a subinscrição do sistema Red Hat (Válido por 1 ano,  para que possamos
 
 sudo yum update -y
 
-#Instalação de Pacotes
+**Instalação de Pacotes**
 
 sudo yum install -y binutils.x86_64 compat-libcap1.x86_64 gcc.x86_64 gcc-c++.x86_64 glibc.i686 glibc.x86_64 glibc-devel.i686 glibc-devel.x86_64 ksh compat-libstdc++-33 libaio.i686 libaio.x86_64 libaio-devel.i686 libaio-devel.x86_64 libgcc.i686 libgcc.x86_64 libstdc++.i686 libstdc++.x86_64 libstdc++-devel.i686 libstdc++-devel.x86_64 libXi.i686 libXi.x86_64 libXtst.i686 libXtst.x86_64 make.x86_64 sysstat.x86_64 zip unzip
 
-#Criação de grupos de usuários para o Oracle
+**Criação de grupos de usuários para o Oracle**
 
 sudo groupadd oinstall
 
@@ -39,6 +51,8 @@ sudo groupadd dba
 sudo useradd -g oinstall -G dba oracle
 
 sudo passwd oracle
+
+**Configuração do Sistema**
 
 #Adicionar os parâmetros abaixo ao arquivo /etc/sysctl.conf
 ```
@@ -61,7 +75,7 @@ sudo sysctl -p
 
 sudo sysctl -a
 
-#Definir os limits do Oracle em /etc/security/limits.conf
+#Definir os limits do Oracle em vi /etc/security/limits.conf
 ```
 oracle soft nproc 2047
 oracle hard nproc 16384
@@ -242,7 +256,7 @@ grant execute on dbms_flashback to ggadmin5;
 
 #Criar o schema da tabela
 No prod:
-```
+```sql
 create user appuser4 identified by appuser4 default tablespace users temporary tablespace temp;
 
 grant connect, resource, create session to appuser4; 
@@ -261,7 +275,7 @@ grant unlimited tablespace to appuser4;
 ```
 
 No Serv:
-```
+```sql
 create user appuser4 identified by appuser4 default tablespace users temporary tablespace temp;
 
 grant connect, resource, create session to appuser4; 
@@ -418,3 +432,11 @@ Verificar a replicação no prod e serv:
 ```
 SELECT COUNT (*) FROM APPUSER4.TB_EMP4;
 ```
+
+---
+## Contato
+
+Se tiver dúvidas ou sugestões sobre o projeto, entre em contato comigo:
+
+- 💼 [LinkedIn](https://www.linkedin.com/in/henrique-k-32967a2b5/)
+- 🐱 [GitHub](https://github.com/henriquekurata?tab=overview&from=2024-09-01&to=2024-09-01)
