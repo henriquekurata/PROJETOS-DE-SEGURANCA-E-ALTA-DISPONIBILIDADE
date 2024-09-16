@@ -59,7 +59,7 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
     make install
     ```
 
-# Configurando:
+#Configurando:
 
 6. Instalar pacotes:
     ```bash
@@ -74,8 +74,8 @@ Neste projeto, foi implementada a configuração de segurança avançada para um
     ```bash
     gedit /etc/krb5.conf
     ```
-    ```ini
 
+```
 [logging]
      default = FILE:/var/log/krb5libs.log
      kdc = FILE:/var/log/krb5kdc.log
