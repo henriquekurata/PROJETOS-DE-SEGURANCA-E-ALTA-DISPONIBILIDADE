@@ -1,7 +1,7 @@
 # 🚀 ***Alta Disponibilidade Entre Dois Bancos de Dados Oracle: Streaming de Dados Transacionais com OGG***
 
 
-## **Descrição do Projeto:**
+## 📖 **Descrição do Projeto:**
 Este projeto implementa uma solução de alta disponibilidade entre dois bancos de dados Oracle usando o Oracle GoldenGate (OGG) para streaming de dados transacionais. O objetivo é garantir que os dados sejam replicados em tempo real entre os bancos de dados, proporcionando uma solução robusta para ambientes críticos que exigem alta disponibilidade e continuidade dos negócios.
 
 ## Principais Funcionalidades:
@@ -11,9 +11,10 @@ Este projeto implementa uma solução de alta disponibilidade entre dois bancos 
 - **Verificação e Monitoramento**: Inserção e verificação da replicação de dados para garantir que os dados estejam sendo corretamente replicados.
 
 
-## 🛠️ **Ferramentas Utilizadas**:
-- Banco Oracle
-- Oracle Golden Gate
+## 🛠️ **Ferramentas Utilizadas**
+- **Banco Oracle**: Sistema de gerenciamento de banco de dados relacional conhecido por sua alta disponibilidade, escalabilidade e segurança, adequado para grandes volumes de dados e transações.
+  
+- **Oracle Golden Gate**: Solução de replicação de dados em tempo real que captura e aplica mudanças de dados entre bancos de dados Oracle e outros sistemas, garantindo alta disponibilidade e continuidade de negócios.
 
 
 ## 📋 **Descrição do Processo**

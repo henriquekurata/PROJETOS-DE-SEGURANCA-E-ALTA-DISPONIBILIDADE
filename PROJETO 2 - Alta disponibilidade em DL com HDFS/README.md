@@ -1,10 +1,22 @@
-# ***Configuração de Data Lake com HDFS para trabalhar com alta disponibilidade***
+# 🚀 ***Configuração de Data Lake com HDFS para trabalhar com alta disponibilidade***
 
-## Ferramentas: 
+## 📖 **Descrição do Projeto:**
 
-Hadoop.
+Este projeto configura um Data Lake utilizando HDFS (Hadoop Distributed File System) para garantir alta disponibilidade e resiliência. A configuração envolve a instalação e ajuste do Hadoop, Zookeeper, e a criação de um cluster com alta disponibilidade. O objetivo é criar um ambiente robusto capaz de lidar com grandes volumes de dados e garantir a continuidade dos serviços em caso de falhas.
 
-## Passos: 
+## **Principais Funcionalidades:**
+
+- **Alta Disponibilidade:** Configuração de um cluster Hadoop com múltiplos Namenodes e Datanodes para garantir a continuidade dos serviços.
+- **Replicação de Dados:** Utilização do Zookeeper para gerenciar a replicação e o failover automático entre os nodes.
+- **Segurança e Resiliência:** Implementação de chaves SSH para acesso sem senha entre os nodes e configuração de failover automático para garantir a integridade dos dados.
+
+
+## 🛠️ **Ferramentas Utilizadas:**
+
+- **Hadoop:** Sistema de processamento distribuído que permite o armazenamento e análise de grandes volumes de dados.
+
+
+## 📋 **Descrição do Processo**
 * Fazer o download do JDK, Hadoop e Zookeeper;
 * Editar as variáveis de ambientes dos 3 arquivos;
 * Fazer o clone da primeira máquina para as demais, pois as configurações até aqui serão as mesmas;
@@ -13,7 +25,7 @@ Hadoop.
 * Configurar os arquivos do Hadoop;
 * Inicializar o cluster de alta disponibilidade.
 
-## Comandos: 
+## 💻 **Comandos:** 
 
 ### Criar VM com Red Hat
 
@@ -47,17 +59,17 @@ export PATH=$PATH:$ZOOKEEPER_HOME/bin
 
 ### Clone do namenode / Edição de configurações das VMs
 
-#Criar clone do Namenode para o Secondary e o datanode
+#### Criar clone do Namenode para o Secondary e o datanode
 
 Obs: Como estamos clonando, é importante fazer o refresh do MAC adress das duas máquinas clonadas. Além disso, nas configurações da VM a rede precisa estar no modo "Bridge adapter"
 
-#Alterar o nome das máquinas:  
+#### Alterar o nome das máquinas:  
 
 sudo vi /etc/hostname (nn1.dsa.com / nn2.dsa.com / dn1.dsa.com)
 
 hostnamectl set-hostname dn1.dsa.com / nn2.dsa.com
 
-#Ajustar o arquivo de rede: 
+#### Ajustar o arquivo de rede: 
 
 sudo vi /etc/hosts com o endereço e o hostname de cada máquina
 
@@ -87,13 +99,13 @@ Após esse comando é só dar enter nas configurações, pois queremos a conexã
 
 Precisamos copiar a chaver pública para o diretório authorized_keys em todos os nodes, portanto execute os comando abaixo no namenode:
 
-#Para o namenode2:
+#### Para o namenode2:
 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 ssh-copy-id -i .ssh/id_rsa.pub aluno@nn2.dsa.com
 
-#Para o datanode:
+#### Para o datanode:
 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
@@ -112,7 +124,7 @@ ssh aluno@dn1.dsa.com
 
 Acesse /opt/hadoop/etc/hadoop
 
-#vi core-site.xml
+#### vi core-site.xml
 ```
 <property>
  <name>fs.defaultFS</name>
@@ -130,7 +142,7 @@ Acesse /opt/hadoop/etc/hadoop
  </property>
 ```
 
-#vi hdfs-site.xml
+#### vi hdfs-site.xml
 ```
 <property>
  <name>dfs.namenode.name.dir</name>
@@ -190,21 +202,23 @@ Acesse /opt/hadoop/etc/hadoop
  </property>
 ```
 
-#Configurando o zookeeper
+### Configurando o zookeeper
 
 Acesse: /opt/zookeeper/conf
 
-Faça a cópia do diretório zoo_smple.cfg com outro nome: cp 
+Faça a cópia do diretório `zoo_smple.cfg` com outro nome: cp 
 
 zoo_smple.cfg zoo.cfg
 
-Edite:
+Edite o `zoo.cfg`:
 ```
 dataDir=/home/hadoop/HA/data/zookeeper
 Server.1=nn1.dsa.com:2888:3888
 Server.2=nn2.dsa.com:2888:3888
 Server.3=dn1.dsa.com:2888:3888
 ```
+
+### Criar diretórios
 
 #Criar a pasta /home/hadoop/HA/data/jn em todas as máquinas que foram configuradas o Jornalnode (nesse caso as 3 máquinas)
 
@@ -221,15 +235,19 @@ secondary namenode)
  </property>
 ```
 
+### Configuração do arquivo workers
+
 #Arquivo Worker
 
 Em todas as máquinas do cluster, editar o arquivo workers e adicionar a lista de datanodes: 
 
-1-Editar o arquivo: /opt/hadoop/etc/hadoop/workers 
+1. Editar o arquivo: /opt/hadoop/etc/hadoop/workers 
 
-2-Remover a opção de localhost 
+2. Remover a opção de localhost 
 
-3-Incluir a lista de datanodes, um em cada linha (deve ser usado o mesmo nome configurado no arquivo /etc/hosts
+3. Incluir a lista de datanodes, um em cada linha (deve ser usado o mesmo nome configurado no arquivo /etc/hosts
+
+### Configuração do Zookeeper
 
 #Configuração da ordem no zookeeper
 Crie o diretório /home/hadoop/HA/data/zookeeper
@@ -243,18 +261,18 @@ Deve ser feito para todas as máquinas
 
 OBS: Antes de iniciar o cluster é importante limpar todos os diretórios de metadados 
 
-Para o Journalnode precisamos configurar o jdk nas máquinas que rodarão esse daemon, portanto acesse: cd /opt/hadoop/etc/hadoop e edite o arquivo hadoop-env.sh:
+Para o Journalnode precisamos configurar o jdk nas máquinas que rodarão esse daemon, portanto acesse: cd /opt/hadoop/etc/hadoop e edite o arquivo `hadoop-env.sh`:
 export JAVA_HOME=/opt/jdk
 
-#1- Inicialização do Journal Node nas 3 máquinas do cluster
+1. **Inicialização do Journal Node nas 3 máquinas do cluster**
 
 hdfs --daemon start journalnode
 
-#2- Format do Namenode 1 (somente na primeira inicialização do cluster)
+2. **Format do Namenode 1 (somente na primeira inicialização do cluster)**
 
 hdfs namenode -format
 
-#3- Verifica se o firewall está ativo
+3. **Verifica se o firewall está ativo**
 
 sudo firewall-cmd --state
 
@@ -266,35 +284,35 @@ sudo systemctl stop firewalld
 
 sudo systemctl disable firewalld
 
-#4- Inicialização do NameNode no NameNode Ativo
+4. **Inicialização do NameNode no NameNode Ativo**
 
 hdfs --daemon start namenode
 
-#5- Copiar os metadados do NomeNode Ativo para o StandBy (apenas na primeira inicialização, executar no NameNode Standby)
+5. **Copiar os metadados do NomeNode Ativo para o StandBy (apenas na primeira inicialização, executar no NameNode Standby)**
 
 hdfs namenode -bootstrapStandby
 
-#6- Inicialização do NameNode no NameNode Standby
+6. **Inicialização do NameNode no NameNode Standby**
 
 hdfs --daemon start namenode
 
-#7- Inicialização do Zookeeper em todas as máquinas do cluster
+7. **Inicialização do Zookeeper em todas as máquinas do cluster**
 
 zkServer.sh start
 
-#8- Inicialização do DataNode 
+8. **Inicialização do DataNode**
 
 hdfs --daemon start datanode
 
-#9- Formatar o HA State (apenas na primeira inicialização)
+9. **Formatar o HA State (apenas na primeira inicialização)**
 
 hdfs zkfc -formatZK
 
-#10- Inicializa o Zookeeper HA Failover Controller (nos dois NameNodes)
+10. **Inicializa o Zookeeper HA Failover Controller (nos dois NameNodes)**
 
 hdfs --daemon start zkfc
 
-#11 - Checar se os NameNodes estão configurados em HA
+11. **Checar se os NameNodes estão configurados em HA**
 
 hdfs haadmin -getServiceState nn1
 
