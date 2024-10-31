@@ -441,6 +441,9 @@ export HDFS_DATANODE_SECURE_USER=aluno
 
 ### Inicialização do Cluster HA com Kerberos
 
+#### OBS: É necessário copiar as configurações do krb5.conf para no namenode secundário e também para o datanode
+sudo vu /etc/krb5.conf (Copiar os mesmos dados que foram adicionados no namenode 1)
+
 #### 0- Antes de tudo é necessário a solicitação do ticket pelo comando kinit e a verificação com klist no nemanode 1.
 Antes de executar o comando 1 também é importante limpar o diretório /opt/hadoop/logs,  /tmp, /home/hadoop/HA/data/jn (de todas as máquinas) e /opt/hadoop/etc/hadoop/home/hadoop/HA/data/namenode (no namenode ativo).
 
