@@ -470,6 +470,7 @@ zkServer.sh start
 
 #### 8- Inicialização do DataNode em modo seguro
 sudo /opt/hadoop/bin/hdfs --daemon start datanode
+
 ps -ax | datanode (Verificar o status no modo seguro)
 
 #### 9- Formatar o HA State (apenas na primeira inicialização - nos dois namenodes)
