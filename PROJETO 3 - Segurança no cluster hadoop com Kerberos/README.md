@@ -489,13 +489,13 @@ hdfs haadmin -getServiceState nn1
 
 #### Habilitando auditoria nos arquivos do hadoop (cd opt/hadoop/etc/hadoop)
 
-hadoop-env.sh
+#hadoop-env.sh
 
-export HADOOP_JAAS_DEBUG=true (Habilitar para saber quem está tentanto acesar)
+export HADOOP_JAAS_DEBUG=true (Habilitar para saber quem está tentanto acesar - Momento de conexão como o endereço IP de origem)
 
-export HADOOP_OPTS="-Djava.net.preferIPv4Stack=true -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug" (leitua de tudo que foi acessado na JVM)
+export HADOOP_OPTS="-Djava.net.preferIPv4Stack=true -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug" (leitura de tudo que foi acessado na JVM)
 
-log4j.properties
+#log4j.properties
 
 hadoop.security.logger=ERROR,NullAppender (Verificar erros no log)
 
@@ -511,7 +511,7 @@ vi teste.txt
 
 hdfs dfs -put teste.txt /user
 
-Obs: Se o acesso for feito sem o user principal (kinit), não será possível nem acessar o cluster, caso o Kerberos esteja ativo.
+Obs: Se o acesso no data lake for feito sem o user principal (kinit), não será possível nem acessar o cluster, caso o Kerberos esteja ativo nas configurações dos arquivos. Portanto é necessário criar o usuário com kadmin e fazer o acesso com o kinit "nome do usuário criado".
 
 ---
 ## Contato
